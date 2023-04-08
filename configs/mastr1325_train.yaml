@@ -1,0 +1,4 @@
+image_dir: ../data/mastr1325/images
+mask_dir: ../data/mastr1325/masks
+imu_dir: ../data/mastr1325/imus
+image_list: train_images.txt
