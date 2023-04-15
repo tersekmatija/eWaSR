@@ -46,7 +46,7 @@ You can export the pre-trained model to ONNX and blob compatible with OAK-D devi
 
 ```
 python3 export.py \
---model_architecture ewasr_resnet18_imu \
+--architecture ewasr_resnet18_imu \
 --weights-file pretrained/ewasr_resnet18_imu.pth \
 --output_dir output
 ```

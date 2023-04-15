@@ -15,10 +15,9 @@ from datasets.mods import MODSDataset
 from datasets.transforms import PytorchHubNormalization
 from wasr.inference import LitPredictor
 import wasr.models as M
-import benchmark.sota.models_sota as M1
 from wasr.utils import load_weights
 
-ARCHITECTURE = 'blk_resnet18_imu'
+ARCHITECTURE = 'ewasr_resnet18_imu'
 # Colors corresponding to each segmentation class
 SEGMENTATION_COLORS = np.array([
     [247, 195, 37],
@@ -56,14 +55,10 @@ def get_arguments():
                         help="Use half precision for inference.")
     parser.add_argument("--gpus", default=-1,
                     help="Number of gpus (or GPU ids) used for training.")
-    parser.add_argument("--token_mixer", type=str, default="pooling", help="Toxen mixer for TopFormer")
-    parser.add_argument("-l", "--transformer_blocks", type=int, default=6, help="Number of transformer blocks in TopFormer")
-    parser.add_argument("--skip", type=str, default=None, choices=[None, 'arm', 'sarm'], help="Use 2 transformer blocks on SKIP connection")
-    parser.add_argument("--short", type=str, default=None, choices=[None, 'arm', 'sarm'], help="Use 2 transformer blocks on SKIP connection")
+    parser.add_argument("--mixer", type=str, default="CCCCSS", help="Token mixers in feature mixer.")
     parser.add_argument("--project", action='store_true', help="Project encoder features to less channels.")
-    parser.add_argument("--ablation", type=str, default=None, choices=["noarm1","noarm2", "noaspp", "noaspp1", "noffm", "noffm1"])
-    parser.add_argument("--mix", action="store_true", help="Mix ARM-SARM.")
-
+    parser.add_argument("--enricher", type=str, default="SS", help="Token mixers in long-skip feature enricher.")
+ 
     return parser.parse_args()
 
 def export_predictions(probs, batch, method_name, output_dir=OUTPUT_DIR):
@@ -88,11 +83,7 @@ def predict_mods(args):
     dl = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.workers)
 
     feed_dict = True
-    if args.architecture in M.model_list:
-        model = M.get_model(args.architecture, num_classes=3, pretrained=False, mix=args.mix, token_mixer=args.token_mixer, L=args.transformer_blocks, skip=args.skip, short=args.short, project=args.project)
-    else:
-        model = M1.get_model(args.architecture, num_classes=3)
-        feed_dict = False
+    model = M.get_model(args.architecture, num_classes=args.num_classes, pretrained=False, mixer=args.mixer, enricher=args.enricher, project=args.project)
 
     weights = load_weights(args.weights_file)
     model.load_state_dict(weights)
