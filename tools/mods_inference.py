@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/paperspace/WaSR")
+sys.path.append("/home/paperspace/eWaSR")
 
 import argparse
 import os
@@ -38,7 +38,7 @@ def get_arguments():
       A list of parsed arguments.
     """
     parser = argparse.ArgumentParser(description="SLR model MODS Inference")
-    parser.add_argument("--architecture", type=str, choices=M.model_list.copy().extend(M1.model_list), default=ARCHITECTURE,
+    parser.add_argument("--architecture", type=str, choices=M.model_list, default=ARCHITECTURE,
                         help="Which architecture to use.")
     parser.add_argument("--method-name", type=str, required=True, help="Method name used in evaluation.")
     parser.add_argument("--weights-file", type=str, required=True,
@@ -83,7 +83,7 @@ def predict_mods(args):
     dl = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.workers)
 
     feed_dict = True
-    model = M.get_model(args.architecture, num_classes=args.num_classes, pretrained=False, mixer=args.mixer, enricher=args.enricher, project=args.project)
+    model = M.get_model(args.architecture, num_classes=3, pretrained=False, mixer=args.mixer, enricher=args.enricher, project=args.project)
 
     weights = load_weights(args.weights_file)
     model.load_state_dict(weights)
