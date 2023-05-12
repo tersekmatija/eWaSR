@@ -5,7 +5,7 @@
 
 Matija Teršek, Lojze Žust, Matej Kristan
 
-[[`paper`](TODO)] [[`BibTeX`](#citation)] [[`weights`](#pretrained-models)]
+[[`paper`](https://arxiv.org/abs/2304.11249)] [[`BibTeX`](#citation)] [[`weights`](#pretrained-models)]
 
 The official PyTorch implementation of the **e**mbedded-compute **WaSR (eWaSR)** network [[1](#ref-ewasr)]. Repository contains scripts for training and running the network and weights pretrained on the MaSTr1325 [[2](#ref-mastr)] dataset. 
 
@@ -116,7 +116,14 @@ Predictions will be stored as color-coded masks to the specified output director
 If you use this code, please cite our papers:
 
 ```bib
-Pending
+@misc{tersek2023ewasr,
+      title={eWaSR -- an embedded-compute-ready maritime obstacle detection network}, 
+      author={Matija Ter\v{s}ek and Lojze \v{Z}ust and Matej Kristan},
+      year={2023},
+      eprint={2304.11249},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
 ```
 
 ## References
