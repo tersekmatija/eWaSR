@@ -142,3 +142,9 @@ Code based on the following amazing repositories:
 * [WaSR](https://github.com/lojzezust/WaSR)
 * [TopFormer](https://github.com/hustvl/TopFormer)
 * [PoolFormer](https://github.com/sail-sg/poolformer)
+
+All repositories included are Apache-2.0 licensed. Please refer to each repository for the individual licenses.
+
+## License
+
+This repository, including pre-trained weights, is licensed under Apache-2.0.
