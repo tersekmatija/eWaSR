@@ -60,7 +60,7 @@ def export(args):
         {"x" : dummy_input}, 
         f = onnx_path, 
         opset_version=12, 
-        input_names=["image"] if "imu" not in args.architecture else ["image", "imu"],
+        #input_names=["image"] if "imu" not in args.architecture else ["image", "imu"],
         output_names=["prediction", "intermediate"]
     )
 
@@ -69,6 +69,9 @@ def export(args):
     onnx_model, check = onnxsim.simplify(model_onnx)
     assert check, 'assert check failed'
     onnx.save(onnx_model, onnx_path)
+
+    model_onnx = onnx.load(onnx_path)
+    input_names = [input.name for input in model_onnx.graph.input]
 
     print(f"ONNX stored at: {onnx_path}")
 
@@ -84,14 +87,16 @@ def export(args):
         shaves=6,
         optimizer_params=[
             "--reverse_input_channels",
-            "--mean_values image[123.675,116.28,103.53],imu[0,0,0]",
-            "--scale_values image[58.395,57.12,57.375],imu[1,1,1]",
-            "--output prediction",
-        ]
+            f"--mean_values={input_names[0]}[123.675,116.28,103.53]" if "imu" not in args.architecture else f"--mean_values={input_names[0]}[123.675,116.28,103.53],{input_names[1]}[0]",
+            f"--scale_values={input_names[0]}[58.395,57.12,57.375]" if "imu" not in args.architecture else f"--scale_values={input_names[0]}[58.395,57.12,57.375],{input_names[1]}[1]",
+            #"--output=prediction",
+        ],
+        version="2022.1",
+        use_cache=False
     )
 
     os.rename(blob_path_temp, blob_path)
-    print(f"ONNX stored at: {blob_path}")
+    print(f"Blob stored at: {blob_path}")
 
 
 def main():

@@ -56,16 +56,15 @@ def get_arguments():
 
 
 def predict(args):
-    if args.dataset == "mastr":
-        dataset = MaSTr1325Dataset(args.dataset_config, normalize_t=PytorchHubNormalization(), include_original=True)
-    elif args.dataset == "mods":
+    if args.dataset == "mods":
         dataset = MODSDataset(args.dataset_config, normalize_t=PytorchHubNormalization())
     else:
-        raise ValueError(f"Dataset {args.dataset} not supported.")
+        dataset = MaSTr1325Dataset(args.dataset_config, normalize_t=PytorchHubNormalization(), include_original=True)
+
     dl = DataLoader(dataset, batch_size=args.batch_size, num_workers=1)
 
     # Prepare model
-    model = models.get_model(args.architecture, num_classes=args.num_classes, pretrained=False, mixer=args.mixer, enricher=args.enricher, project=args.project)
+    model = models.get_model(args.model, num_classes=args.num_classes, pretrained=False, mixer=args.mixer, enricher=args.enricher, project=args.project)
     state_dict = load_weights(args.weights)
     model.load_state_dict(state_dict)
     predictor = Predictor(model, args.fp16)
