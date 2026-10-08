@@ -113,7 +113,7 @@ Predictions will be stored as color-coded masks to the specified output director
 
 ## Citation
 
-If you use this code, please cite our papers:
+If you use eWaSR code or pretrained weights in your work, please cite our paper:
 
 ```bib
 @article{tersek2023ewasr,
@@ -145,6 +145,14 @@ Code based on the following amazing repositories:
 
 All repositories included are Apache-2.0 licensed. Please refer to each repository for the individual licenses.
 
-## License
+## License and usage
 
-This repository, including pre-trained weights, is licensed under Apache-2.0.
+The code in this repository and the pretrained eWaSR model weights provided here are licensed under the [Apache License 2.0](LICENSE).
+
+You may use, modify, and redistribute the code and weights, including in commercial applications and proprietary products, subject to the license terms. No separate permission from the authors is required for uses permitted by the license.
+
+When redistributing the code or weights, include a copy of the license, preserve applicable notices, and indicate changes to modified files, as required by Apache-2.0.
+
+Third-party dependencies and datasets remain subject to their respective licenses.
+
+If you use eWaSR in research, an application, or a product, please cite our paper using the entry in the [Citation](#citation) section.
